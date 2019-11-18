@@ -39,15 +39,17 @@ class Pokemon extends CI_Controller {
 		$this->load->view('index',$d);
 	}
 	
-	public function getPok()
+	public function getPok($id)
 	{
 		iniAjax();
 		$url = $_GET['url'];
 		$d['retorno'] = carregar($url);
+		$this->jphp->executa("$('#pokemon').modal('show')");
 		$detalhes = $this->load->view('detalhes',$d,true);
 		$this->jphp->replace('.modal-title',$d['retorno']['name']);
 		$this->jphp->replace('.modal-body',$detalhes);
-		$this->jphp->executa("$('#pokemon').modal('show')");		
+		$this->jphp->executa("$('.load$id').fadeOut(0.1);
+			$('.detalhe$id').fadeIn(0.1);");		
 		$this->jphp->send();
 	}
 }

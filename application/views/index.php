@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 $dadosHead = array('titulo' => $titulo, 'pagina' => $pagina);
-$itensPP = array(20,40,80,100);
+$itensPP = array(20, 40, 80, 100);
 ?>
 <html>
     <head>
@@ -27,25 +27,51 @@ $itensPP = array(20,40,80,100);
 				text-decoration: none;
 
 			}
+
+			.lds-dual-ring {
+				display: inline-block;
+				width: 32px;
+				height: 32px;
+				display: none;
+			}
+			.lds-dual-ring:after {
+				content: " ";
+				display: block;
+				width: 32px;
+				height: 32px;
+				margin: 8px;
+				border-radius: 50%;
+				border: 6px solid #000;
+				border-color: #000 transparent #000 transparent;
+				animation: lds-dual-ring 1.2s linear infinite;
+			}
+			@keyframes lds-dual-ring {
+				0% {
+					transform: rotate(0deg);
+				}
+				100% {
+					transform: rotate(360deg);
+				}
+			}
 		</style>
     </head>
     <body>
 		<br>
-		
+
 		<br>
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="input-group">
 					<span class="input-group-addon" id="basic-addon1">Pokemon's por página</span>
 					<form class="itens">
-						<input type="hidden" name="pga" value="<?=$_GET['pga']?>">
-					<select name="itensPorPagina" onChange="$('.itens').submit();" class="form-control">
-						<?php
-							foreach($itensPP as $i){
-								echo "<option value='$i' ".($i == $_GET['itensPorPagina'] ? 'selected' : '').">$i</option>";
+						<input type="hidden" name="pga" value="<?= $_GET['pga'] ?>">
+						<select name="itensPorPagina" onChange="$('.itens').submit();" class="form-control">
+							<?php
+							foreach ($itensPP as $i) {
+								echo "<option value='$i' " . ($i == $_GET['itensPorPagina'] ? 'selected' : '') . ">$i</option>";
 							}
-						?>
-					</select>
+							?>
+						</select>
 					</form>
 				</div>
 			</div>
@@ -70,7 +96,7 @@ $itensPP = array(20,40,80,100);
 					<tr>
 						<th scope="row"><?= $cont++ ?></th>
 						<td><?= $p['name'] ?></td>
-						<td><a href="<?= base_url('Pokemon/getPok/?url=' . $p['url']) ?>" class="ajax">Detalhes</a></td>					
+						<td><a href="<?= base_url('Pokemon/getPok/'.$cont.'?url=' . $p['url']) ?>" class="ajax iniDetalhes detalhe<?=$cont?>" data-id="<?=$cont?>">Detalhes</a><div class="lds-dual-ring load<?=$cont?>"></div></td>					
 					</tr>				
 					<?php
 				}
@@ -98,6 +124,16 @@ $itensPP = array(20,40,80,100);
 		</div>
     </body>
 </html>
+
+<script>
+	$(document).ready(function(){
+		$('.iniDetalhes').on('click',function(){
+			var id = $(this).data('id');
+			$('.load'+id).fadeIn(0.1);
+			$('.detalhe'+id).fadeOut(0.1);
+		})
+	});
+</script>
 
 
 
